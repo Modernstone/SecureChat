@@ -89,11 +89,11 @@ At no point does the server possess users' private keys or message plaintext.
 
 | Login | Dashboard |
 |--------|-----------|
-| ![](images/login.png) | ![](images/dashboard.png) |
+| ![](screenshots/login.png) | ![](screenshots/dashboard.png) |
 
 | Chat | Profile |
 |------|----------|
-| ![](images/chat.png) | ![](images/profile.png) |
+| ![](screenshots/chat.png) | ![](screenshots/profile.png) |
 
 ---
 
