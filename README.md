@@ -85,8 +85,6 @@ At no point does the server possess users' private keys or message plaintext.
 
 # 📷 Screenshots
 
-> Replace these with your project screenshots.
-
 | Login | Dashboard |
 |--------|-----------|
 | ![](screenshots/login.png) | ![](screenshots/dashboard.png) |
