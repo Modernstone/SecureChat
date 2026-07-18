@@ -402,12 +402,10 @@ This project is intended for **educational purposes**.
 
 Feel free to fork and modify it for learning or research.
 
-If distributing publicly, consider adding an MIT or Apache 2.0 license.
-
 ---
 
 <div align="center">
 
-**Built with ❤️ by ModernStone**
+**Built by ModernStone**
 
 </div>
