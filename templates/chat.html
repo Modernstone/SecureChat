@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Chat with {{ other_user.username }} - SecureChat{% endblock %}
+
+{% block content %}
+<div class="chat-container" data-my-id="{{ current_user.id }}" data-other-id="{{ other_user.id }}"
+     data-other-name="{{ other_user.username }}" data-other-key="{{ other_user.public_key }}">
+
+    <!-- Chat header -->
+    <div class="chat-header">
+        <a href="{{ url_for('main.dashboard') }}" class="back-btn">&#8592;</a>
+        <div class="chat-header-info">
+            <h2 class="chat-username">{{ other_user.username }}</h2>
+            <span class="chat-status" id="chat-status">Offline</span>
+        </div>
+        <div class="chat-lock-icon" title="End-to-end encrypted">&#128274;</div>
+    </div>
+
+    <!-- Messages area -->
+    <div class="messages-area" id="messages-area">
+        <div class="e2ee-notice">
+            <span>&#128274;</span> Messages are end-to-end encrypted. No one except you and {{ other_user.username }} can read them.
+        </div>
+        <div class="loading-spinner" id="loading-messages">Loading messages...</div>
+    </div>
+
+    <!-- Typing indicator -->
+    <div class="typing-indicator" id="typing-indicator" hidden>
+        <span class="typing-dots"><span>.</span><span>.</span><span>.</span></span>
+        {{ other_user.username }} is typing
+    </div>
+
+    <!-- Input area -->
+    <div class="chat-input-area">
+        <form id="message-form" class="message-form">
+            <input type="text" id="message-input" class="message-input"
+                   placeholder="Type a message..." autocomplete="off" maxlength="10000">
+            <button type="submit" class="btn-send" id="send-btn" title="Send">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor"/>
+                </svg>
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/encryption.js') }}"></script>
+<script src="{{ url_for('static', filename='js/websocket.js') }}"></script>
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endblock %}

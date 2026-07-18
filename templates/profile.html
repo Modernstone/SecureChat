@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Profile - SecureChat{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <span class="avatar-letter avatar-large">{{ current_user.username[0]|upper }}</span>
+            </div>
+            <h1 class="profile-name">{{ current_user.username }}</h1>
+            <p class="profile-email">{{ current_user.email }}</p>
+        </div>
+
+        <div class="profile-details">
+            <div class="detail-row">
+                <span class="detail-label">Member since</span>
+                <span class="detail-value">{{ current_user.created_at.strftime('%B %d, %Y') }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Last seen</span>
+                <span class="detail-value">{{ current_user.last_seen.strftime('%B %d, %Y at %H:%M') }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Encryption</span>
+                <span class="detail-value detail-secure">
+                    <span class="lock-icon-small">&#128274;</span> RSA-OAEP + AES-GCM
+                </span>
+            </div>
+        </div>
+
+        <div class="profile-security">
+            <h3>Security Information</h3>
+            <div class="security-notice">
+                <p><strong>Your private key is stored only in your browser (IndexedDB).</strong> It is never sent to the server.</p>
+                <p>If you clear your browser data, you will lose the ability to decrypt old messages.</p>
+            </div>
+            <button class="btn btn-danger" id="export-keys-btn">Export Private Key</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/encryption.js') }}"></script>
+<script>
+    document.getElementById('export-keys-btn').addEventListener('click', async function() {
+        try {
+            const keyPair = await SecureChatCrypto.getKeyPair();
+            if (!keyPair) {
+                alert('No keys found. Please re-register.');
+                return;
+            }
+            const exported = await SecureChatCrypto.exportPrivateKey(keyPair.privateKey);
+            const blob = new Blob([JSON.stringify(exported)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'securechat-private-key.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        } catch (err) {
+            alert('Failed to export key: ' + err.message);
+        }
+    });
+</script>
+{% endblock %}

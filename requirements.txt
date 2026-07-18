@@ -1,0 +1,11 @@
+Flask==3.0.0
+Flask-SocketIO==5.3.6
+Flask-Login==0.6.3
+Flask-WTF==1.2.1
+Flask-Cors==4.0.0
+SQLAlchemy>=2.0.36
+bcrypt==4.1.2
+PyJWT==2.8.0
+python-socketio==5.10.0
+WTForms==3.1.1
+email-validator==2.1.0

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Login - SecureChat{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h1 class="auth-title">Welcome Back</h1>
+        <p class="auth-subtitle">Log in to access your encrypted messages.</p>
+
+        <form id="login-form" method="POST" action="{{ url_for('auth.login') }}" novalidate>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required
+                       placeholder="Your username" autocomplete="username">
+                <span class="form-error" id="username-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required
+                       placeholder="Your password" autocomplete="current-password">
+                <span class="form-error" id="password-error"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full" id="login-btn">
+                <span class="btn-text">Log In</span>
+                <span class="btn-loading" hidden>Logging in...</span>
+            </button>
+        </form>
+
+        <p class="auth-footer">
+            Don't have an account? <a href="{{ url_for('auth.register') }}">Register</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/encryption.js') }}"></script>
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+{% endblock %}

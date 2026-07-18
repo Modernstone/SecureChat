@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - SecureChat{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Users</h1>
+        <p class="dashboard-subtitle">End-to-end encrypted conversations. Select a user to start chatting.</p>
+    </div>
+
+    <div class="user-list" id="user-list">
+        <!-- Populated by JS -->
+        <div class="loading-spinner" id="loading-users">Loading users...</div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    (async function() {
+        const userList = document.getElementById('user-list');
+        const loading = document.getElementById('loading-users');
+
+        try {
+            const resp = await fetch('/api/users');
+            const data = await resp.json();
+            loading.hidden = true;
+
+            if (data.users.length === 0) {
+                userList.innerHTML = '<p class="empty-state">No other users registered yet. Invite a friend!</p>';
+                return;
+            }
+
+            data.users.forEach(function(user) {
+                var card = document.createElement('a');
+                card.href = '/chat/' + user.id;
+                card.className = 'user-card';
+
+                var statusClass = user.online ? 'status-online' : 'status-offline';
+                var lastSeen = user.online ? 'Online' : 'Last seen ' + user.last_seen;
+
+                card.innerHTML =
+                    '<div class="user-avatar">' +
+                        '<span class="avatar-letter">' + user.username.charAt(0).toUpperCase() + '</span>' +
+                        '<span class="status-dot ' + statusClass + '"></span>' +
+                    '</div>' +
+                    '<div class="user-info">' +
+                        '<h3 class="user-name">' + user.username + '</h3>' +
+                        '<span class="user-status">' + lastSeen + '</span>' +
+                    '</div>' +
+                    '<div class="user-arrow">&#8250;</div>';
+
+                userList.appendChild(card);
+            });
+        } catch (err) {
+            loading.textContent = 'Failed to load users.';
+            console.error(err);
+        }
+    })();
+</script>
+{% endblock %}

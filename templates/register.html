@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Register - SecureChat{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h1 class="auth-title">Create Account</h1>
+        <p class="auth-subtitle">Your keys are generated in your browser. The server never sees your private key.</p>
+
+        <form id="register-form" method="POST" action="{{ url_for('auth.register') }}" novalidate>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required minlength="3" maxlength="64"
+                       placeholder="Choose a username" autocomplete="username">
+                <span class="form-error" id="username-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required maxlength="120"
+                       placeholder="your@email.com" autocomplete="email">
+                <span class="form-error" id="email-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required minlength="8"
+                       placeholder="Min 8 characters" autocomplete="new-password">
+                <span class="form-error" id="password-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm_password" required
+                       placeholder="Re-enter password" autocomplete="new-password">
+                <span class="form-error" id="confirm-password-error"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full" id="register-btn">
+                <span class="btn-text">Register</span>
+                <span class="btn-loading" hidden>Generating keys...</span>
+            </button>
+        </form>
+
+        <p class="auth-footer">
+            Already have an account? <a href="{{ url_for('auth.login') }}">Log in</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/encryption.js') }}"></script>
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+{% endblock %}
