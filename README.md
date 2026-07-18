@@ -182,7 +182,7 @@ SecureChat
 Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/SecureChat.git
+git clone https://github.com/Modernstone/SecureChat.git
 ```
 
 Navigate to the project
